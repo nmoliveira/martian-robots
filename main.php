@@ -8,3 +8,4 @@ $missionControlCenter->loadInstructions($input);
 $missionControlCenter->createMap();
 $missionControlCenter->createRobots();
 $missionControlCenter->deployRobots();
+$missionControlCenter->report();
