@@ -56,7 +56,8 @@ class MissionControlCenter {
      * Create map
      */
     public function createMap() {
-        $this->map = new Map($this->instructions[0], $this->instructions[1]);
+        $dimensions = explode(" ", $this->instructions[0]);
+        $this->map = new Map($dimensions[0], $dimensions[1]);
     }
 
     /**
@@ -67,7 +68,7 @@ class MissionControlCenter {
           
             $instruction = explode(" ", $this->instructions[$i]);
  
-            $robot = new Robot($instruction[0], $instruction[1], $instruction[2], strtoupper($instruction[3]),$this->map);
+            $robot = new Robot($instruction[0], $instruction[1], $instruction[2], strtoupper($instruction[3]), $this->map);
             array_push($this->robots, $robot);
         }
     }

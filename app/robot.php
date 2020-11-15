@@ -64,7 +64,7 @@ class Robot {
         // test if instruction has only 'L', 'R' or 'F' characters
         preg_match('/^[L|R|F]*$/', $instructions, $outputArray);
 
-        if (empty($outputArray) || strlen($this->instructions)>100) throw new \Exception ("Invalid set of instructions for");
+        if (empty($outputArray) || strlen($this->instructions)>100) throw new \Exception ("Invalid set of instructions");
 
         $this->x = $x;
         $this->y = $y;
@@ -83,8 +83,8 @@ class Robot {
         $commandsArray = str_split($this->instructions);
 
         foreach($commandsArray as $command) {
-            if (!$this->lost) $this->executeCommand($command);
-            else break;
+            if ($this->lost) break;
+            $this->executeCommand($command);
         }
     }
 
@@ -103,10 +103,18 @@ class Robot {
                 $this->orientation = $this->rotateRight($this->orientation);
                 break;
             case self::MOVE_FORWARD:
-                
                 $newCoordinates = $this->moveForward($this->x, $this->y, $this->orientation);
-                $this->x = $newCoordinates["x"];
-                $this->y = $newCoordinates["y"];
+
+                // if new coordinates are inside the grid then update Robot position
+                $insideGridConditions = $newCoordinates["x"] >= 0 && $newCoordinates["y"] >= 0 
+                    && $newCoordinates["x"] <= $this->map->width && $newCoordinates["y"] <= $this->map->height;
+
+                if ($insideGridConditions) {
+                    $this->x = $newCoordinates["x"];
+                    $this->y = $newCoordinates["y"];
+                } else {
+                    $this->lost = true;
+                }
 
                 break;
         }
