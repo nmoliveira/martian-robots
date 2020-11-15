@@ -113,7 +113,14 @@ class Robot {
                     $this->x = $newCoordinates["x"];
                     $this->y = $newCoordinates["y"];
                 } else {
-                    $this->lost = true;
+                    // new coordinates are out of grid
+                    // check if there is a scent on current position so the robot can ignore the command
+                    $scentExists = $this->map->isThereScentLeft($this->x, $this->y);
+                    if (!$scentExists) {
+                        // robot needs to follow command
+                        $this->lost = true;
+                        $this->map->addScent($this->x, $this->y);
+                    }
                 }
 
                 break;
