@@ -5,6 +5,14 @@
  */
 class Robot {
     
+    const ROTATE_LEFT = "L";
+    const ROTATE_RIGHT = "R";
+    const MOVE_FORWARD = "F";
+    const NORTH = "N";
+    const SOUTH = "S";
+    const EAST = "E";
+    const WEST = "W";
+
     /**
      * Coordinate X
      * @var int
@@ -75,7 +83,70 @@ class Robot {
         $commandsArray = str_split($this->instructions);
 
         foreach($commandsArray as $command) {
-            // execute command
+            if (!$this->lost) $this->executeCommand($command);
+            else break;
+        }
+    }
+
+    /**
+     * Update robot position based on the received command
+     * 
+     * @param string $command
+     */
+    private function executeCommand(string $command) {
+
+        switch ($command) {
+            case self::ROTATE_LEFT: 
+                $this->orientation = $this->rotateLeft($this->orientation);
+                break;
+            case self::ROTATE_RIGHT:
+                $this->orientation = $this->rotateRight($this->orientation);
+                break;
+            case self::MOVE_FORWARD:
+                //TODO
+                break;
+        }
+    }
+
+    /**
+     * Rotate left
+     * @param string $orientation
+     * @return string new orientation
+     */
+    public function rotateLeft(string $orientation) {
+        switch ($orientation) {
+            case self::NORTH:
+                return self::WEST;
+                break;
+            case self::WEST:
+                return self::SOUTH;
+            case self::SOUTH:
+                return self::EAST;
+                break;
+            case self::EAST:
+                return self::NORTH;
+                break;
+        }
+    }
+
+    /**
+     * Rotate right
+     * @param string $orientation
+     * @return string new orientation
+     */
+    public function rotateRight(string $orientation) {
+        switch ($orientation) {
+            case self::NORTH:
+                return self::EAST;
+                break;
+            case self::EAST:
+                return self::SOUTH;
+            case self::SOUTH:
+                return self::WEST;
+                break;
+            case self::WEST:
+                return self::NORTH;
+                break;
         }
     }
 }
