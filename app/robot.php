@@ -103,7 +103,11 @@ class Robot {
                 $this->orientation = $this->rotateRight($this->orientation);
                 break;
             case self::MOVE_FORWARD:
-                //TODO
+                
+                $newCoordinates = $this->moveForward($this->x, $this->y, $this->orientation);
+                $this->x = $newCoordinates["x"];
+                $this->y = $newCoordinates["y"];
+
                 break;
         }
     }
@@ -148,5 +152,24 @@ class Robot {
                 return self::NORTH;
                 break;
         }
+    }
+
+    /**
+     * Move forward
+     * @param int $x Position x
+     * @param int $y Position y
+     * @param string $orientation
+     * @return string array Associative array containing keys 'x' and 'y' for the coordinates
+     */
+    public function moveForward(int $x, int $y, string $orientation) {
+        switch ($orientation) {
+            case self::NORTH: $y++; break;
+            case self::EAST: $x++; break;
+            case self::SOUTH: $y--; break;
+            case self::WEST: $x--; break;
+        }
+        $coordinates["x"] = $x;
+        $coordinates["y"] = $y;
+        return $coordinates;
     }
 }
