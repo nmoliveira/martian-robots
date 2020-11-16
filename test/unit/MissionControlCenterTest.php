@@ -14,4 +14,17 @@ class MissionControlCenterTest extends TestCase {
         $this->assertNotEmpty($mcc);    
     }
 
+    public function test_input() {
+        $input = __DIR__ . "/robot-instructions.txt";
+
+        $missionControlCenter = new MissionControlCenter();
+        $missionControlCenter->loadInstructions($input);
+        $missionControlCenter->createMap();
+        $missionControlCenter->createRobots();
+        $missionControlCenter->deployRobots();
+        $report = $missionControlCenter->report();
+
+        $this->assertEquals($report, "1 1 E\n3 3 N LOST\n2 3 S\n");
+    }
+
 }

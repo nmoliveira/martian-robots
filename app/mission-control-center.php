@@ -84,11 +84,14 @@ class MissionControlCenter {
 
     /**
      * Output report for all the robots
+     * @return string report
      */
     public function report(){
+        $report = "";
         foreach ($this->robots as $robot) {
-            if ($robot->lost) echo "{$robot->x} {$robot->y} {$robot->orientation} LOST\n";
-            else echo "{$robot->x} {$robot->y} {$robot->orientation}\n";
+            if ($robot->lost) $report = $report . "{$robot->x} {$robot->y} {$robot->orientation} LOST\n";
+            else $report = $report . "{$robot->x} {$robot->y} {$robot->orientation}\n";
         }
+        return $report;
     }
 }
